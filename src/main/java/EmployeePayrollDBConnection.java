@@ -14,17 +14,12 @@ public class EmployeePayrollDBConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE employee_payroll SET basic_pay = ? WHERE name=?;");
-            preparedStatement.setDouble(1, 5000000);
-            preparedStatement.setString(2, "Vyshnavi");
-            preparedStatement.executeUpdate();
-
-            Statement statement1 = connection.createStatement();
-            ResultSet resultSet = statement1.executeQuery(sql);
+            Statement statement = connection.createStatement();
+            ResultSet  resultSet = statement.executeQuery("SELECT * FROM employee_payroll WHERE start BETWEEN CAST('2019-01-01' AS DATE) AND DATE(NOW());");
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             while (resultSet.next()){
                 System.out.println("{ ");
-                for (int i = 1 ; i < resultSetMetaData.getColumnCount(); i++){
+                for (int i = 1 ; i <= resultSetMetaData.getColumnCount(); i++){
                     String columnValue = resultSet.getString(i);
                     System.out.print( "   " + resultSetMetaData.getColumnName(i) + ": " +columnValue + ",");
                 }
