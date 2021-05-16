@@ -1,40 +1,29 @@
-import java.sql.*;
-import java.util.Enumeration;
+import java.time.LocalDate;
 
 public class EmployeePayroll {
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to Employee Payroll Database");
-        String url = "jdbc:mysql://127.0.0.1:3306/payroll_service";
-        String user = "vyshu";
-        String password = "vyshu@11";
-        Connection connection = null;
+    private int id;
+    private String name;
+    private double salary;
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Driver Loaded");
-        }catch (ClassNotFoundException e){
-            throw new IllegalStateException("Cannot find the driver in the classpath", e);
-        }
-
-        listDrivers();
-
-        try {
-            System.out.println("Connecting to database: " + url);
-            connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Connection is successful!! ");
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-
+    public EmployeePayroll(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
     }
 
-    private static void listDrivers() {
-        Enumeration<Driver> driverList = DriverManager.getDrivers();
-        while (driverList.hasMoreElements()){
-            Driver driverClass = (Driver) driverList.nextElement();
-            System.out.println(" " + driverClass.getClass().getName());
-        }
 
+    public String toString(){
+        return "Employee ID: " + id + ", Name: " + name + ", Salary: Rs." + salary + "/-";
+    }
+
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }if (o == null || getClass() != o.getClass()){
+            return false;
+        }
+        EmployeePayroll that = (EmployeePayroll) o;
+        return id == that.id && Double.compare(that.salary, salary) == 0 && name.equals(that.name);
     }
 }
