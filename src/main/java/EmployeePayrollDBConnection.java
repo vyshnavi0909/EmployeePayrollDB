@@ -14,8 +14,11 @@ public class EmployeePayrollDBConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE employee_payroll SET basic_pay = 3000000 WHERE name='Vyshnavi';");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE employee_payroll SET basic_pay = ? WHERE name=?;");
+            preparedStatement.setDouble(1, 5000000);
+            preparedStatement.setString(2, "Vyshnavi");
+            preparedStatement.executeUpdate();
+
             Statement statement1 = connection.createStatement();
             ResultSet resultSet = statement1.executeQuery(sql);
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
